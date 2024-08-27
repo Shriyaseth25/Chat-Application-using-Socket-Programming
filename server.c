@@ -1,3 +1,7 @@
+//libraries for input/output, mememory allocation and string manipulation
+// unistd.h provides access to POSIX OS API( for closing and opening sockets
+// arpa/inet.h defines internet operations
+// pthread.h supports multi threading
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,23 +9,29 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 
+
+// defines port number, memory of buffer, the max number of clients that can connect simultaneously and lengths for username and password
 #define PORT 8080
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2000
 #define MAX_CLIENTS 10
 #define USERNAME_LEN 50
 #define PASSWORD_LEN 50
 
+// user structure to store username and password for each user
 typedef struct {
     char username[USERNAME_LEN];
     char password[PASSWORD_LEN];
 } User;
 
+//client structure to store info about connected clients
 typedef struct {
     int sockfd;
     struct sockaddr_in addr;
     char username[USERNAME_LEN];
 } client_t;
 
+
+// Global variables
 client_t *clients[MAX_CLIENTS];
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 const char *encryption_key = "encryption_key";
@@ -61,7 +71,8 @@ int register_user(const char *username, const char *password) {
     return 1;  // Registration successful
 }
 
-// XOR encryption/decryption function
+// XOR encryption/decryption function (reversible)
+// it takes the msg and encrypts it using the above defined encryption message
 void xor_encrypt_decrypt(char *data, const char *key) {
     int data_len = strlen(data);
     int key_len = strlen(key);
@@ -71,6 +82,7 @@ void xor_encrypt_decrypt(char *data, const char *key) {
     }
 }
 
+// function to broadcast the msg send by any client along with encryption
 void broadcast_message(char *message, int sender_sockfd) {
     pthread_mutex_lock(&clients_mutex);
     for (int i = 0; i < MAX_CLIENTS; ++i) {
@@ -84,6 +96,8 @@ void broadcast_message(char *message, int sender_sockfd) {
     pthread_mutex_unlock(&clients_mutex);
 }
 
+// function to manage interaction between server and individual client
+// handles user authentication and client communication
 void *handle_client(void *arg) {
     client_t *cli = (client_t *)arg;
     char buffer[BUFFER_SIZE];
@@ -144,6 +158,7 @@ void *handle_client(void *arg) {
 }
 
 int main() {
+    // variables to store file descriptor of server socket and client socket, and structure that stores the server's address info.
     int server_fd, new_socket;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
