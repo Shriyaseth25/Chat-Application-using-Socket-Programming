@@ -8,7 +8,7 @@ This project is a chat application built using socket programming in C. The appl
 * **_Multithreading_ :** The server uses threads to handle multiple clients simultaneously, ensuring that the server can manage several connections concurrently.
 * **_User Authentication_ :** Basic user registration and login functionality using username and password.
 * **_Message Encryption_ :** XOR-based encryption/decryption for secure message transmission between the client and server.
-* **_Custom Library Functions_ :** Custom utility functions for encryption and message handling.
+* **_Custom Library Functions_ :** Custom utility functions for encryption, message handling and user authentication.
 
 # Concepts Explored
 * **Computer Networks**
@@ -22,7 +22,9 @@ This project is a chat application built using socket programming in C. The appl
   * **_File Handling_ :** Managed user data (e.g., usernames and passwords) through file operations in C.
   
 * **Custom Library**
-  * **_XOR Encryption_ :** Created a custom function for XOR-based encryption and decryption to secure communication.
+  * **_XOR Encryption_ :** Created a custom library for XOR-based encryption and decryption to secure communication.
+  * **_Server_Functions_:** Created a custom library that stores all the server functions.
+  * **_Client_Functions_:** Created a custom library that stores all the client functions including user authentication.
   
 
 # How to Run
@@ -32,8 +34,26 @@ This project is a chat application built using socket programming in C. The appl
 
 * **Steps**
 1. Clone the repository:
-    ```git clone https://github.com/Shriyaseth25/Chat-Application-using-Socket-Programming.git```
+    ```
+   git clone https://github.com/Shriyaseth25/Chat-Application-using-Socket-Programming.git
+    ```
+2. Navigate to Project Directory:
+   ```
+   cd Chat-Application-using-Socket-Programming
+   ```
+3. Open one Terminal:
+   ```
+   gcc -o server server.c server_header.c encryption.c -lpthread
+   ./server
+   ```
 
+4. Open another Terminal:
+   ```
+   gcc -o client client.c client_header.c encryption.c -lpthread
+   ./client
+   ```
+
+* **You may open as many client terminals as you want, to chat with multiple clients.**
 
 # Usage
 
@@ -44,7 +64,9 @@ This project is a chat application built using socket programming in C. The appl
 # File Structure
 * **_server.c_ :** Server-side implementation handling multiple clients.
 * **_client.c_ :** Client-side implementation for connecting to the server and sending/receiving messages.
-// encryption.h: Custom library for XOR encryption and decryption.
+* **encryption.h:** Custom header file for XOR encryption and decryption.
+* **server_header.h:** Custom header file for server-side functions.
+* **client_header.h:** Custom header file for client-side functions.
 
 # Acknowledgments
 This project helped me solidify my understanding of several core concepts in computer science, including networking, operating systems, and multithreading. Special thanks to the various online communities and documentation that provided invaluable guidance.
