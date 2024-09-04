@@ -139,4 +139,4 @@ void *handle_client(void *arg) {
     pthread_mutex_unlock(&clients_mutex);
     free(cli);
     pthread_exit(NULL);
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ~                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+}  
