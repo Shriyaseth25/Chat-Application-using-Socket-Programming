@@ -1,8 +1,3 @@
-//libraries for input/output, mememory allocation and string manipulation
-// unistd.h provides access to POSIX OS API( for closing and opening sockets
-// arpa/inet.h defines internet operations
-// pthread.h supports multi threading
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +26,7 @@ void *receive_messages(void *sock) {
         if (nbytes > 0) {
             buffer[nbytes] = '\0';
             xor_encrypt_decrypt(buffer, encryption_key);  // Decrypt the received message
-            printf("Server: %s", buffer);
+            printf("Client : %s", buffer);
         } else {
             printf("Disconnected from server.\n");
             close(sockfd);
