@@ -60,7 +60,15 @@ int main() {
     while (1) {
         fgets(buffer, BUFFER_SIZE, stdin);
         xor_encrypt_decrypt(buffer, encryption_key);
-        send(sock, buffer, strlen(buffer), 0);
+        
+        // Ensure the message is properly terminated
+        strncat(buffer, "\n", BUFFER_SIZE - strlen(buffer) - 1);
+        
+        size_t len = strlen(buffer);
+        if (send(sock, buffer, len, 0) != len) {
+            perror("send failed");
+        }
+        // usleep(50000); 
     }
 
     pthread_join(tid, NULL);
