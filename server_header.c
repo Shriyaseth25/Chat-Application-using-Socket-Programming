@@ -121,6 +121,8 @@ void *handle_client(void *arg) {
     // Handle client communication
     while ((nbytes = read(cli->sockfd, buffer, sizeof(buffer))) > 0) {
         buffer[nbytes] = '\0';
+        printf("Encrypted message from %s: %s\n", cli->username, buffer);
+        
         xor_encrypt_decrypt(buffer, encryption_key);  // Decrypt the received message
 
         printf("%s: %s", cli->username, buffer);
