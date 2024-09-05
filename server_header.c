@@ -12,13 +12,11 @@
 #define USERNAME_LEN 50
 #define PASSWORD_LEN 50
 
-// user structure to store username and password for each user
 typedef struct {
     char username[USERNAME_LEN];
     char password[PASSWORD_LEN];
 } User;
 
-//client structure to store info about connected clients
 typedef struct {
     int sockfd;
     struct sockaddr_in addr;
@@ -47,9 +45,6 @@ int user_exists(const char *username, const char *password) {
     return 0;  // User not found
 }
 
-
-
-// Function to register a new user
 int register_user(const char *username, const char *password) {
     if (user_exists(username, password)) {
         return 0;  // User already exists
@@ -78,18 +73,12 @@ void broadcast_message(char *message, int sender_sockfd) {
     pthread_mutex_unlock(&clients_mutex);
 }
 
-
-
-// function to manage interaction between server and individual client
-// handles user authentication and client communication
 void *handle_client(void *arg) {
     client_t *cli = (client_t *)arg;
     char buffer[BUFFER_SIZE];
     int nbytes;
 
-    // Authentication process
     while (1) {
-        // Receive authentication data
         if ((nbytes = read(cli->sockfd, buffer, sizeof(buffer))) <= 0) {
             close(cli->sockfd);
             free(cli);
@@ -118,18 +107,16 @@ void *handle_client(void *arg) {
         }
     }
 
-    // Handle client communication
     while ((nbytes = read(cli->sockfd, buffer, sizeof(buffer))) > 0) {
         buffer[nbytes] = '\0';
         printf("Encrypted message from %s: %s\n", cli->username, buffer);
-        
-        xor_encrypt_decrypt(buffer, encryption_key);  // Decrypt the received message
 
-        printf("%s: %s", cli->username, buffer);
-        broadcast_message(buffer, cli->sockfd);  // Broadcast to other clients
+        xor_encrypt_decrypt(buffer, encryption_key);
+        // printf("Decrypted message from %s: %s", cli->username, buffer);
+
+        broadcast_message(buffer, cli->sockfd);
     }
 
-    // Client disconnected
     close(cli->sockfd);
     pthread_mutex_lock(&clients_mutex);
     for (int i = 0; i < MAX_CLIENTS; ++i) {
@@ -141,4 +128,4 @@ void *handle_client(void *arg) {
     pthread_mutex_unlock(&clients_mutex);
     free(cli);
     pthread_exit(NULL);
-}  
+}
