@@ -67,7 +67,7 @@ void broadcast_message(char *message, int sender_sockfd) {
             char encrypted_message[BUFFER_SIZE];
             strcpy(encrypted_message, message);
             xor_encrypt_decrypt(encrypted_message, encryption_key);
-            send(clients[i]->sockfd, encrypted_message, strlen(encrypted_message), 0);
+            send(clients[i]->sockfd, encrypted_message, strlen(encrypted_message)-1, 0);
         }
     }
     pthread_mutex_unlock(&clients_mutex);
@@ -79,7 +79,7 @@ void *handle_client(void *arg) {
     int nbytes;
 
     while (1) {
-        if ((nbytes = read(cli->sockfd, buffer, sizeof(buffer))) <= 0) {
+        if ((nbytes = read(cli->sockfd, buffer, 3000)) <= 0) {
             close(cli->sockfd);
             free(cli);
             pthread_exit(NULL);
@@ -107,7 +107,7 @@ void *handle_client(void *arg) {
         }
     }
 
-    while ((nbytes = read(cli->sockfd, buffer, sizeof(buffer))) > 0) {
+    while ((nbytes = read(cli->sockfd, buffer, 3000)) > 0) {
         buffer[nbytes] = '\0';
         printf("Encrypted message from %s: %s\n", cli->username, buffer);
 
