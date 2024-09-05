@@ -9,7 +9,7 @@
 
 #define PORT 8080
 #define BUFFER_SIZE 1024
-#define MAX_LEN 100
+#define MAX_LEN 12000
 
 const char *encryption_key = "your_key";
 
@@ -20,7 +20,6 @@ int main() {
     char buffer[BUFFER_SIZE];
     pthread_t tid;
 
-    // Create socket
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("Socket creation error\n");
         return -1;
@@ -29,13 +28,11 @@ int main() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
-    // Convert IP address from text to binary form
     if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
         printf("Invalid address/Address not supported\n");
         return -1;
     }
 
-    // Connect to the server
     if (connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("Connection failed\n");
         return -1;
@@ -43,20 +40,26 @@ int main() {
 
     printf("Connected to the server\n");
 
-    // Handle login
-    login(sock);
+    int choice;
+    printf("1. Register\n2. Login\nChoose an option: ");
+    scanf("%d", &choice);
+    getchar();  // To consume the newline after scanf
 
-    // Create a thread to receive messages from the server
+    if (choice == 1) {
+        register_user(sock);
+    } else {
+        login(sock);
+    }
+
     if (pthread_create(&tid, NULL, receive_messages, (void *)&sock) != 0) {
         perror("Thread creation failed");
         close(sock);
         return -1;
     }
 
-    // Send messages to the server
     while (1) {
         fgets(buffer, BUFFER_SIZE, stdin);
-        xor_encrypt_decrypt(buffer, encryption_key);  // Encrypt the message before sending
+        xor_encrypt_decrypt(buffer, encryption_key);
         send(sock, buffer, strlen(buffer), 0);
     }
 
