@@ -74,3 +74,6 @@ This project helped me solidify my understanding of several core concepts in com
 # Future Enhancements
 * **_Graphical User Interface (GUI)_ :** Implement a user-friendly interface for the chat application.
 * **_Database Integration_ :** Store user data in a database instead of a file.
+
+# Snapshot
+![Screenshot 2024-09-05 182309](https://github.com/user-attachments/assets/3a8232ed-4a7e-40cd-a7e9-81b6d7920b16)
