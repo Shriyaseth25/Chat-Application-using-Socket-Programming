@@ -8,13 +8,13 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-#include "encryption.h"
+#include "../Encryption/encryption.h"
 #include "server_header.h"
 
 
 // defines port number, memory of buffer, the max number of clients that can connect simultaneously and lengths for username and password
 #define PORT 8080
-#define BUFFER_SIZE 2000
+#define BUFFER_SIZE 20000
 #define MAX_CLIENTS 10
 #define USERNAME_LEN 50
 #define PASSWORD_LEN 50
