@@ -43,17 +43,17 @@ This project is a chat application built using socket programming in C. The appl
    ```
 3. Open one Terminal:
    ```
-   gcc -o server server.c server_header.c encryption.c -lpthread
-   ./server
+   gcc -o server_executable Server/server.c Server/server_header.c Encryption/encryption.c -lpthread
+   ./server_executable
    ```
 
 4. Open another Terminal:
    ```
-   gcc -o client client.c client_header.c encryption.c -lpthread
-   ./client
+   gcc -o client_executable Client/client.c Client/client_header.c Encryption/encryption.c -lpthread
+   ./client_executable
    ```
 
-* **You may open as many client terminals as you want, to chat with multiple clients.**
+* **You may open as many client terminals as you want, to chat with multiple clients. For that you need to run only the executable file.**
 
 # Usage
 
@@ -76,4 +76,5 @@ This project helped me solidify my understanding of several core concepts in com
 * **_Database Integration_ :** Store user data in a database instead of a file.
 
 # Snapshot
-![Screenshot 2024-09-05 182309](https://github.com/user-attachments/assets/3a8232ed-4a7e-40cd-a7e9-81b6d7920b16)
+![Screenshot 2024-09-06 195101](https://github.com/user-attachments/assets/33c65447-5678-4b17-bc10-04d582af1f05)
+
