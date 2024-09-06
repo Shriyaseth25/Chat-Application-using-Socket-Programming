@@ -4,11 +4,11 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-#include "encryption.h"
+#include "../Encryption/encryption.h"
 #include "client_header.h"
 
 #define PORT 8080
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 20000
 #define MAX_LEN 12000
 
 const char *encryption_key = "your_key";
