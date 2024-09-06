@@ -4,9 +4,9 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-#include "encryption.h"
+#include "../Encryption/encryption.h"
 
-#define BUFFER_SIZE 3000
+#define BUFFER_SIZE 20000
 #define MAX_LEN 12000
 #define MAX_INPUT_LEN 2990
 
@@ -18,7 +18,7 @@ void *receive_messages(void *sock) {
     int nbytes;
 
     while (1) {
-        memset(buffer, 0, 3000);  // Clear buffer before receiving
+        memset(buffer, 0, 20000);  // Clear buffer before receiving
 
         // Receive data from the server
         nbytes = recv(sockfd, buffer, sizeof(buffer) - 2, 0);
@@ -90,7 +90,3 @@ void register_user(int sockfd) {
     printf("Please Login using your credentials:");
     login(sockfd);
 }
-
-
-
-
