@@ -4,10 +4,10 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-#include "encryption.h"
+#include "../Encryption/encryption.h"
 
 #define PORT 8080
-#define BUFFER_SIZE 3000
+#define BUFFER_SIZE 20000
 #define MAX_CLIENTS 10
 #define USERNAME_LEN 50
 #define PASSWORD_LEN 50
@@ -79,7 +79,7 @@ void *handle_client(void *arg) {
     int nbytes;
 
     while (1) {
-        if ((nbytes = read(cli->sockfd, buffer, 3000)) <= 0) {
+        if ((nbytes = read(cli->sockfd, buffer, 20000)) <= 0) {
             close(cli->sockfd);
             free(cli);
             pthread_exit(NULL);
@@ -107,7 +107,7 @@ void *handle_client(void *arg) {
         }
     }
 
-    while ((nbytes = read(cli->sockfd, buffer, 3000)) > 0) {
+    while ((nbytes = read(cli->sockfd, buffer, 20000)) > 0) {
         buffer[nbytes] = '\0';
         printf("Encrypted message from %s: %s\n", cli->username, buffer);
 
